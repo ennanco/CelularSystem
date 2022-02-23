@@ -9,8 +9,8 @@
 
 <!-- Project paths properties -->
 <property name="homedir" value="."/>
-<property name="commondir" value="${homedir}/../../CelularSystem"/>
-<property name="externalsoftware" value="D:/Documentación General/API Java 5.0"/>
+<property name="commondir" value="${homedir}/../../DNALogic-v.9.0"/>
+<property name="externalsoftware" value="D:/Documentación General/docs/api"/>
 
 <!-- Local library path -->
 <property name="common.lib" value="${commondir}/lib"/>

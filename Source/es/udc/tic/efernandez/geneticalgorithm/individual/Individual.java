@@ -10,7 +10,7 @@ import es.udc.tic.efernandez.geneticalgorithm.variable.Variable;
  */
 public interface Individual {
 	
-	public static final int MAX_DNA_LENGTH = 600;
+	public static final int MAX_DNA_LENGTH = 50;
 	
     
     public Variable get(int index);

@@ -15,7 +15,7 @@ The following files must be included first (and in this order):
 	</fileset>
 </path>
 
-<!-- Auctioneer classpath -->
+<!-- classpath -->
 <path id="common.classpath">
 	<path refid="common.requiredclasspath"/>
     <dirset dir=".">
