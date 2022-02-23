@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE project [
+	<!ENTITY CommonProperties SYSTEM "CommonProperties.xml">
+	<!ENTITY CommonPathReferences SYSTEM "CommonPathReferences.xml">
+]>
+
+<!-- ======================================================================= -->
+<!--                         "Auctioneer" build file                         -->
+<!-- ======================================================================= -->
+
+<project name="CelularSystem" default="all" basedir=".">
+
+<!-- ============================  Properties ============================== -->
+
+	<!-- Independent-of-configuration properties -->
+	&CommonProperties;
+	&CommonPathReferences;
+	
+	<property name=".projectname" value="celularSystem"/>
+	<property name="celularSystem.build" value="${commondir}/Build"/>
+	<property name="celularSystem.classes" value="${celularSystem.build}/Classes"/>
+	<property name="celularSystem.jars" value="${celularSystem.build}/Jars"/>			
+	<property name="celularSystem.javadoc" value="${celularSystem.build}/JavaDoc"/>
+	<property name="celularSystem.source" value="${commondir}/Source"/>
+	
+
+	<property name="celularSystem.celularjar" value="cellular.jar"/>
+	<property name="celularSystem.geneticalgorithmjar" value="geneticalgoritm.jar"/>
+	<property name="celularSystem.celularsimulatorjar" value="cellularsimulator.jar"/>
+	<property name="celularSystem.utiljar" value="util.jar"/>
+
+	<!-- For JavaDoc generation -->
+	<property name="celularSystem.name" value="CelularSystem"/>
+	<property name="celularSystem.name.version" value="1.0"/>
+	<property name="celularSystem.name.author" value="Enrique Fernández Blanco"/>
+
+	
+<!-- ============================ "init" target ============================ -->
+	
+	<target name="init">		
+		<echo>
+--------------------------------------------------------------------------------
+Running build file for subsystem "${celularSystem.name}" ...
+--------------------------------------------------------------------------------
+		</echo>
+	</target>
+
+<!-- ========================== "compile" target =========================== -->
+
+	<target name="all" depends="init,cleanall, rebuild, jars,javadoc"/>
+<!-- ========================== "compile" target =========================== -->
+	 
+	<target name="compile" depends="init">
+		<mkdir dir="${celularSystem.classes}"/>
+		<copy todir="${celularSystem.classes}">
+			<fileset dir="${celularSystem.source}">
+			  <include name="**/*.properties"/>
+			</fileset>
+		</copy>
+		<javac srcdir="${celularSystem.source}" 
+			   destdir="${celularSystem.classes}"
+			   classpathref="common.requiredclasspath"
+			   debug="${javac.debug}" 
+			   optimize="${javac.optimize}" 
+			   deprecation="${javac.deprecation}"
+				source="1.6"/>
+	</target>
+
+<!-- ========================= "cleanclasses" target ======================= -->
+
+	<target	name="cleanclasses" depends="init">
+		<delete dir="${celularSystem.classes}"/>
+	</target>
+	
+	<target	name="cleanjars" depends="init">
+		<delete dir="${celularSystem.jars}"/>
+	</target>
+
+	<target	name="cleanjavadoc" depends="init">
+		<delete dir="${celularSystem.javadoc}"/>
+	</target>
+	
+	
+<!-- ===== "cleanall" target: cleans both Classess and JavaDoc folders ===== -->
+
+	<target	name="cleanall" depends="cleanclasses,cleanjars,cleanjavadoc"/>
+
+<!-- ========================== "rebuild" target =========================== -->
+
+	<target name="rebuild" depends="cleanclasses, compile"/>
+	    
+		
+	    
+	<!-- =========================== "jars" target ========================== -->
+	    <target name="jars" depends="compile,cleanjars">
+	        <mkdir dir="${celularSystem.jars}"/>
+	        <jar jarfile="${celularSystem.jars}/${celularSystem.celularjar}"
+	             basedir="${celularSystem.classes}"
+	             includes="**/efernandez/celular/**"/>
+	    <jar jarfile="${celularSystem.jars}/${celularSystem.geneticalgorithmjar}"
+    	     basedir="${celularSystem.classes}"
+        	 includes="**/efernandez/geneticalgorithm/**"/>
+    	<jar jarfile="${celularSystem.jars}/${celularSystem.celularsimulatorjar}"
+        	basedir="${celularSystem.classes}"
+         	includes="**"
+    		excludes="*.*"/>
+	    <jar jarfile="${celularSystem.jars}/${celularSystem.utiljar}"
+    	     basedir="${celularSystem.classes}"
+        	 includes="**/efernandez/util/**"/>
+	    </target>
+	
+	<!-- ========================= "javadoc" target ============================ -->
+	
+	<target name="javadoc" depends="compile">
+		<delete dir="${celularSystem.javadoc}"/>
+		<mkdir dir="${celularSystem.javadoc}"/>
+		<javadoc destdir="${celularSystem.javadoc}"
+				private="yes"
+    	 		windowtitle="${celularSystem.name} v${celularSystem.name.version}"
+    	 		doctitle="${celularSystem.name} v${celularSystem.name.version}"
+		 		header="${celularSystem.name} v${celularSystem.name.version}"
+	  	 		bottom="${celularSystem.name} v${celularSystem.name.version} - ${celularSystem.name.author}">
+
+			<group title="Util Subsystem" 
+				   packages="util.*"/>
+			<group title="VisualInterface Subsystem" 
+				   packages="visualinterface.*"/>
+			<group title="Genetic Algoritm Subsystem" 
+				   packages="geneticalgorithm.*"/>
+			<group title="Celular Subsystem" 
+				   packages="celular.*"/>
+			<link href="${j2se.javadocurl}"/>			
+		    <packageset dir="${celularSystem.source}" defaultexcludes="yes">
+		      <include name="*/**"/>
+		    </packageset>
+		</javadoc>
+	</target>
+
+    <!-- ========================= "sourcedist" target ========================= -->
+
+    <target name="sourcedist" depends="init">
+
+        <!-- Common files for all distributions -->
+		<patternset id="celularSystem.commonfiles"
+	        	includes="${celularSystem.name}/**"
+				excludes="**/Build/**,**/CVS/**,
+					**/*.sh,**/.*/**,${celularSystem.name}/*.xml,
+					**/*.tar.gz,**/*.tgz,**/*.zip"/>
+	
+	<!-- .tar.gz distribution (with execution permissions for .sh files)-->
+	
+		<delete file="${commondir}/${celularSystem.name}.tar.gz"/>
+		<tar tarfile="${commondir}/${celularSystem.name}.tar.gz"
+			longfile="gnu" compression="gzip">
+			<tarfileset dir="${commondir}/..">
+		      	<patternset refid="celularSystem.commonfiles"/>
+	        </tarfileset>
+            <tarfileset dir="${commondir}/.." mode="755"
+                includes="${celularSystem.name}/**/*.sh"/>
+       </tar>
+		
+		<!-- .zip distribution -->
+	    <delete file="${commondir}/${celularSystem.name}.zip"/>
+		<zip destfile="${commondir}/${celularSystem.name}.zip">
+			<fileset dir="${commondir}/..">
+				<patternset refid="celularSystem.commonfiles"/>
+			</fileset>
+			<fileset dir="${commondir}/.."
+				includes="${celularSystem.name}/**/*.sh"/>
+		</zip>
+
+	</target>
+					
+	</project>

@@ -1,0 +1,24 @@
+<!-- ======================================================================= -->
+<!--                         Common path references                          -->
+<!-- ======================================================================= -->
+
+<!--
+The following files must be included first (and in this order):
+
+- CommonProperties.xml
+-->
+
+<!-- Classpath required by the auctioneer -->
+<path id="common.requiredclasspath">		
+	<fileset dir="${common.lib}"> 
+		<include name="*.jar"/>
+	</fileset>
+</path>
+
+<!-- Auctioneer classpath -->
+<path id="common.classpath">
+	<path refid="common.requiredclasspath"/>
+    <dirset dir=".">
+        <include name="*.properties"/>
+    </dirset>
+</path>

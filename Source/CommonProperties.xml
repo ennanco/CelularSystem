@@ -1,0 +1,32 @@
+<!-- ======================================================================= -->
+<!--                              Common properties                          -->
+<!-- ======================================================================= -->
+
+<!-- ====================== Development environment ======================== -->
+
+
+<!-- Properties to change as needed -->
+
+<!-- Project paths properties -->
+<property name="homedir" value="."/>
+<property name="commondir" value="${homedir}/../../CelularSystem"/>
+<property name="externalsoftware" value="D:/Documentación General/API Java 5.0"/>
+
+<!-- Local library path -->
+<property name="common.lib" value="${commondir}/lib"/>
+
+<!-- J2SE JavaDoc -->
+<property name="j2se.javadocurl" value="file:${externalsoftware}"/>
+		
+<!-- Independent-of-configuration properties -->
+
+<!-- Ant -->
+<property name="ant.lib" value="${commondir}/lib"/>
+
+<!-- ==================== Development environment options ================== -->
+
+<!-- Java compiler -->
+<property name="build.compiler" value="modern"/>
+<property name="javac.debug" value="on"/>
+<property name="javac.optimize" value="off"/>
+<property name="javac.deprecation" value="on"/>

@@ -1,0 +1,1 @@
+java -Xms512m -Xmx512m -classpath .;./../Build/Jars/celularsimulator.jar;./../lib/xmlwriter-2.2.jar; es.udc.tic.efernandez.celularsimulator.batchinterface.BatchInterface 1000 500 90.0 5.0 0.001 2 4 20 20 20 50 10 10 0000 1000 1010 1100 1001 3 Result1.xml
